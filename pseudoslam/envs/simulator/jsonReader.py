@@ -37,7 +37,7 @@ class jsonReader():
             self.json_data = json.load(json_file)
 
         # Draw the contour
-        verts = (np.array(self.json_data['verts']) * self.meter2pixel).astype(np.int)
+        verts = (np.array(self.json_data['verts']) * self.meter2pixel).astype(np.int32)
         x_max, x_min, y_max, y_min = np.max(verts[:,0]), np.min(verts[:,0]), np.max(verts[:, 1]), np.min(verts[:,1])
         self.cnt_map = np.zeros((y_max - y_min + self.border_pad * 2,
                         x_max - x_min + self.border_pad * 2))
@@ -52,7 +52,7 @@ class jsonReader():
         for tp in self.json_data['room_category']:
             tp_id = _get_room_tp_id(tp)
             for bbox_tp in self.json_data['room_category'][tp]:
-                bbox_tp = (np.array(bbox_tp) * self.meter2pixel).astype(np.int)
+                bbox_tp = (np.array(bbox_tp) * self.meter2pixel).astype(np.int32)
                 bbox = [np.max([bbox_tp[0] - x_min + self.border_pad, 0]),
                         np.max([bbox_tp[1] - y_min + self.border_pad, 0]),
                         np.min([bbox_tp[2] - x_min + self.border_pad, self.cnt_map.shape[1]]),

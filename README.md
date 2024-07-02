@@ -1,3 +1,32 @@
+## Create Gazebo world simulation from HouseExpo Dataset
+
+Added ability to create gazebo world files from the provided dataset to be able to train for example quadcopters in gazebo like environment.
+
+TODO: 
+- Add ability to spawn turtlebot / quadcopter
+- auto reset
+- Launching worlds in parallel
+- Polish boundry conditioning, overlap of walls, etc.
+
+> Requires gazebo classic to be installed on your system
+
+Uncompress HouseExpo data:
+```
+cd HouseExpo
+tar -xvzf json.tar.gz
+```
+Launch the file
+```
+cd gazebo
+python gazebo_convert.py
+```
+
+![Gazebo image](gazebo/sample_gazebo.png)
+
+
+Original readme as under:
+====
+
 # HouseExpo Dataset & PseudoSLAM Simulator (IROS2020)
 ![samples](https://github.com/TeaganLi/teaganli.github.io/blob/master/HouseExpo/collection.png)
 by [Tingguang Li](https://teaganli.github.io) at The Chinese University of Hong Kong. The paper and video can be found at [Paper](https://arxiv.org/abs/1903.09845), [Video](https://youtu.be/v7XPzj62OfE).

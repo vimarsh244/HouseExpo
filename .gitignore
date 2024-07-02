@@ -3,3 +3,5 @@ HouseExpo/json/
 *.pyc
 *.egg-info/
 *.idea/
+
+png/*

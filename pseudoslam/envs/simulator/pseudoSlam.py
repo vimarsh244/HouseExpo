@@ -37,7 +37,7 @@ class pseudoSlam():
         self.traj = []
 
         with open(param_file) as stream:
-            self.config = yaml.load(stream)
+            self.config = yaml.load(stream, Loader=yaml.FullLoader)
 
         """json reader init"""
         self.json_reader = jsonReader.jsonReader(self.config['json_dir'], self.config['meter2pixel'])
@@ -308,8 +308,8 @@ class pseudoSlam():
 
     def _build_map_with_rangeCoordMat(self, y_rangeCoordMat, x_rangeCoordMat):
         # Round y and x coord into int
-        y_rangeCoordMat = (np.round(y_rangeCoordMat)).astype(np.int)
-        x_rangeCoordMat = (np.round(x_rangeCoordMat)).astype(np.int)
+        y_rangeCoordMat = (np.round(y_rangeCoordMat)).astype(np.int32)
+        x_rangeCoordMat = (np.round(x_rangeCoordMat)).astype(np.int32)
 
         """ Check for index of y_mat and x_mat that are within the world """
         inBound_ind= util.within_bound(np.array([y_rangeCoordMat, x_rangeCoordMat]), self.world.shape)
@@ -437,7 +437,7 @@ class pseudoSlam():
         cv2.circle(state, (int(self.robotPose[1]), int(self.robotPose[0])), self.robotRadius, 50, thickness=-1)
 
         # draw robot orientation heading on state
-        headRadius = np.ceil(self.robotRadius/3.).astype(np.int)
+        headRadius = np.ceil(self.robotRadius/3.).astype(np.int32)
         headLen = self.robotRadius + headRadius
         # orientPt = util.transform_coord(self.robotPose[0], self.robotPose[1], self.robotPose, np.array([0, headLen, 0]))
         # cv2.circle(state, (orientPt[1],orientPt[2]), headRadius, 50, thickness=-1)
