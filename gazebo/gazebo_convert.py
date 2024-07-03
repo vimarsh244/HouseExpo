@@ -28,17 +28,18 @@ def convert_json_to_gazebo(json_data):
                     <geometry>
                         <box>
                             <size>{abs(v2[0] - v1[0])} {abs(v2[1] - v1[1])} 1</size>
+                            
                         </box>
                     </geometry>
                 </visual>
             </link>
-            <pose>{(v1[0] + v2[0]) / 2} {(v1[1] + v2[1]) / 2} 0 0 0 0</pose>
+            <pose>{(v1[0] + v2[0]) / 2} {(v1[1] + v2[1]) / 2} 0.5 0 0 0</pose>
         </model>
         """
 
     def create_boundary_wall(min_pt, max_pt):
         return f"""
-        <model name='boundary_wall'>
+        <model name='boundary_wall_1'>
             <static>true</static>
             <link name='link'>
                 <collision name='collision'>
@@ -58,7 +59,7 @@ def convert_json_to_gazebo(json_data):
             </link>
             <pose>{(min_pt[0] + max_pt[0]) / 2} {min_pt[1]} 0.5 0 0 0</pose>
         </model>
-        <model name='boundary_wall'>
+        <model name='boundary_wall_2'>
             <static>true</static>
             <link name='link'>
                 <collision name='collision'>
@@ -78,7 +79,7 @@ def convert_json_to_gazebo(json_data):
             </link>
             <pose>{(min_pt[0] + max_pt[0]) / 2} {max_pt[1]} 0.5 0 0 0</pose>
         </model>
-        <model name='boundary_wall'>
+        <model name='boundary_wall_3'>
             <static>true</static>
             <link name='link'>
                 <collision name='collision'>
@@ -98,7 +99,7 @@ def convert_json_to_gazebo(json_data):
             </link>
             <pose>{min_pt[0]} {(min_pt[1] + max_pt[1]) / 2} 0.5 0 0 0</pose>
         </model>
-        <model name='boundary_wall'>
+        <model name='boundary_wall_4'>
             <static>true</static>
             <link name='link'>
                 <collision name='collision'>
@@ -146,12 +147,70 @@ def convert_json_to_gazebo(json_data):
       </spot>
     </light>
     """
+    
+    other_imports = """
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    """
 
     gazebo_world = f"""
     <?xml version="1.0" ?>
     <sdf version="1.6">
         <world name="default">
             {sun_light}
+            {other_imports}
             {wall_elements}
             {boundary_wall}
         </world>

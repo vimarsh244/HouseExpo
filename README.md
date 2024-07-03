@@ -3,10 +3,10 @@
 Added ability to create gazebo world files from the provided dataset to be able to train for example quadcopters in gazebo like environment.
 
 TODO: 
-- Add ability to spawn turtlebot / quadcopter
-- auto reset
-- Launching worlds in parallel
-- Polish boundry conditioning, overlap of walls, etc.
+- [ ] Add ability to spawn turtlebot / quadcopter
+- [ ] auto reset
+- [ ] Launching worlds in parallel
+- [x] Polish boundry conditioning, overlap of walls, etc.
 
 > Requires gazebo classic to be installed on your system
 
@@ -21,7 +21,7 @@ cd gazebo
 python gazebo_convert.py
 ```
 
-![Gazebo image](gazebo/sample_gazebo.png)
+![Gazebo image](gazebo/sample_gazebo_2.png)
 
 
 Original readme as under:
